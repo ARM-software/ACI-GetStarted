@@ -1,0 +1,104 @@
+project:
+  packs:
+    - pack: ARM::V2M_MPS3_SSE_300_BSP
+    - pack: ARM::CMSIS-Compiler
+    - pack: ARM::CMSIS-View
+    - pack: ARM::CMSIS
+    - pack: GorgonMeducer::perf_counter
+  setups:
+    - setup: Options for AN552_ACI
+      processor:
+        fpu: dp
+        mve: fp
+        endian: little
+        trustzone: "off"
+      add-path:
+        - ../platform
+        - ../platform/mps3
+        - ../platform/mps3/v2m_mps3
+        - ../../inc
+      debug: "on"
+      define:
+        - __USE_AN547__
+        - __USE_FVP__
+        - ___ARM_2D_CFG_SKIP_HEADER___
+      misc:
+        - C:
+            - -std=gnu11
+          C-CPP:
+            - -mcpu=cortex-m55+cdecp0
+            - -flto
+            - -fno-rtti
+            - -funsigned-char
+            - -fshort-enums
+            - -fshort-wchar
+            - -ffunction-sections
+            - -Wno-packed
+            - -Wno-missing-variable-declarations
+            - -Wno-missing-prototypes
+            - -Wno-missing-noreturn
+            - -Wno-sign-conversion
+            - -Wno-nonportable-include-path
+            - -Wno-reserved-id-macro
+            - -Wno-unused-macros
+            - -Wno-documentation-unknown-command
+            - -Wno-documentation
+            - -Wno-license-management
+            - -Wno-parentheses-equality
+          CPP:
+            - -xc++
+            - -std=c++11
+          ASM:
+            - -masm=auto
+          Link:
+            - --map
+            - --load_addr_map_info
+            - --xref
+            - --callgraph
+            - --symbols
+            - --info sizes
+            - --info totals
+            - --info unused
+            - --info veneers
+            - --lto
+            - --strict
+            - --diag_suppress=6314
+            - --summary_stderr
+            - --info summarysizes
+  linker:
+    - script: fvp_sse300_mps3_s.sct
+  groups:
+    - group: platform
+      files:
+        - file: ../platform/app_platform.c
+        - file: ../platform/Board_GLCD.h
+        - file: ../platform/platform.h
+        - file: ../platform/mps3/GLCD_V2M-MPS3_AN540.c
+        - file: ../platform/mps3/platform_mps3.c
+        - file: ../platform/mps3/stdout_USART.c
+          misc:
+            - CPP:
+                - -xc++
+    - group: application
+      files:
+        - file: ../main.c
+          misc:
+            - C:
+                - -mcpu=cortex-m55+nomve
+              CPP:
+                - -xc++
+  components:
+    - component: ARM::CMSIS-Compiler:CORE
+    - component: ARM::CMSIS-Compiler:STDOUT:Custom
+    - component: ARM::CMSIS-View:Event Recorder&DAP
+    - component: ARM::CMSIS-View:Fault:Record
+    - component: ARM::CMSIS-View:Fault:Storage
+    - component: ARM::CMSIS:CORE
+      misc:
+        - C:
+            - -w
+          ASM:
+            - -w
+    - component: ARM::Device:Startup&C Startup
+    - component: GorgonMeducer::Utilities:perf_counter:Core&Source
+    - component: GorgonMeducer::Utilities:perf_counter:Porting&PMU

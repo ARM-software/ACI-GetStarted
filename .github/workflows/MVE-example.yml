@@ -1,0 +1,62 @@
+name: Build and execute MVE example
+on:
+  workflow_run:
+    workflows: ["Build CDE plugins for Linux x86_64"]
+    types:
+      - completed
+
+permissions: write-all
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    # Activate the package manager and install the required build tools
+    - name: Activate vcpkg
+      uses: ARM-software/cmsis-actions/vcpkg@v1
+      with: 
+        config: "./vcpkg-configuration.json"
+
+    - name: Activate Arm tool license
+      uses: ARM-software/cmsis-actions/armlm@v1
+
+    - name: Build the MVE application
+      run: |
+        cbuild ./MVE/example/mdk/ACI-Example.csolution.yml --packs --context .+AN552_ACI --rebuild
+
+    # Upload the generated ACI-Example.axf binary as ACI-MVE-Example.axf artifact.
+    # Set the maximum retention period of 90 days.
+    - name: Upload the MVE axf binary
+      uses: actions/upload-artifact@v4
+      with:
+        name: ACI-MVE-Example.axf
+        path: MVE/example/mdk/out/ACI-Example/AN552_ACI/ACI-Example.axf
+        retention-days: 90
+
+    # Download the MVE plugin artifact
+    - name: Download the MVE plugin
+      uses: actions/download-artifact@v4
+      with:
+        run-id: ${{ github.event.workflow_run.id }}
+        github-token: ${{ github.token }}            
+        name: cde_plugin_aci_mve-linux_x86_64.so
+        path: MVE/plugin/build/
+
+    # Execute the MVE example with AVH-Model and MVE plugin
+    - name: Execute the MVE example
+      run: |
+        FVP_Corstone_SSE-300 \
+        -a  ./MVE/example/mdk/out/ACI-Example/AN552_ACI/ACI-Example.axf \
+        --plugin ./CDE_Utils/Linux64/GCC_10.3/CDELoader.so \
+        -C cpu0.has_cde=1 \
+        -C mps3_board.telnetterminal0.start_telnet=0 \
+        -C mps3_board.uart0.out_file=- \
+        -C cpu0.cde_impl_name="ARM_2D_RGB565_ACI" \
+        -C CDE.CDELoader.aci_object_files="[./MVE/plugin/build/cde_plugin.so]" \
+        -C CDE.CDELoader.aci_parameters="COPRO=1" \
+        -C core_clk.mul=10000000 \
+        --simlimit 300 --stat

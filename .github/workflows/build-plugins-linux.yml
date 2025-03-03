@@ -1,0 +1,46 @@
+name: Build CDE plugins for Linux x86_64
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    # Generate the CDE plugin (SO) for the GPR example.
+    - name: Build the GPR plugin
+      run: |
+        cd GPR/plugin
+        make
+
+    # Upload the generated cde_plugin.so as cde_plugin_aci_gpr-linux_x86_64.so artifact.
+    # Set the maximum retention period of 90 days.
+    - name: Upload the GPR plugin
+      uses: actions/upload-artifact@v4
+      with:
+        name: cde_plugin_aci_gpr-linux_x86_64.so
+        path: GPR/plugin/build/cde_plugin.so
+        retention-days: 90
+
+    # Generate the CDE plugin (SO) for the MVE example.
+    - name: Build the MVE plugin
+      run: |
+        cd MVE/plugin
+        make
+
+    # Upload the generated cde_plugin.so as cde_plugin_aci_mve-linux_x86_64.so artifact.
+    # Set the maximum retention period of 90 days.
+    - name: Upload the MVE plugin
+      uses: actions/upload-artifact@v4
+      with:
+        name: cde_plugin_aci_mve-linux_x86_64.so
+        path: MVE/plugin/build/cde_plugin.so
+        retention-days: 90

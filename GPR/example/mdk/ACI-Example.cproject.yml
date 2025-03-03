@@ -1,0 +1,171 @@
+project:
+  packs:
+    - pack: ARM::V2M_MPS3_SSE_300_BSP
+      for-context: +AN552_ACI
+    - pack: Keil::V2M-MPS2_IOTKit_BSP
+      for-context: +CortexM33_ACI
+    - pack: ARM::CMSIS-Compiler
+    - pack: ARM::CMSIS-View
+    - pack: ARM::CMSIS
+    - pack: GorgonMeducer::perf_counter
+  setups:
+    - setup: Options for AN552_ACI
+      for-context: +AN552_ACI
+      processor:
+        fpu: dp
+        mve: fp
+        endian: little
+        trustzone: "off"
+      add-path:
+        - ../platform
+        - ../platform/mps3
+        - ../platform/mps3/v2m_mps3
+        - ../../inc
+      debug: "on"
+      define:
+        - __USE_AN547__
+        - __USE_FVP__
+        - ___ARM_2D_CFG_SKIP_HEADER___
+      misc:
+        - C:
+            - -std=gnu11
+          C-CPP:
+            - -mcpu=cortex-m55+cdecp0
+            - -flto
+            - -fno-rtti
+            - -funsigned-char
+            - -fshort-enums
+            - -fshort-wchar
+            - -ffunction-sections
+            - -Wno-packed
+            - -Wno-missing-variable-declarations
+            - -Wno-missing-prototypes
+            - -Wno-missing-noreturn
+            - -Wno-sign-conversion
+            - -Wno-nonportable-include-path
+            - -Wno-reserved-id-macro
+            - -Wno-unused-macros
+            - -Wno-documentation-unknown-command
+            - -Wno-documentation
+            - -Wno-license-management
+            - -Wno-parentheses-equality
+          CPP:
+            - -xc++
+            - -std=c++11
+          ASM:
+            - -masm=auto
+          Link:
+            - --map
+            - --load_addr_map_info
+            - --xref
+            - --callgraph
+            - --symbols
+            - --info sizes
+            - --info totals
+            - --info unused
+            - --info veneers
+            - --lto
+            - --strict
+            - --diag_suppress=6314
+            - --summary_stderr
+            - --info summarysizes
+    - setup: Options for CortexM33_ACI
+      for-context: +CortexM33_ACI
+      processor:
+        fpu: sp
+        trustzone: "off"
+      add-path:
+        - ../platform
+        - ../platform/mps3
+        - ../platform/mps3/v2m_mps3
+        - ../../inc
+      debug: "on"
+      define:
+        - __USE_AN547__
+        - __USE_FVP__
+        - ___ARM_2D_CFG_SKIP_HEADER___
+      misc:
+        - C:
+            - -std=gnu11
+          C-CPP:
+            - -mcpu=cortex-m33+cdecp0
+            - -flto
+            - -fno-rtti
+            - -funsigned-char
+            - -fshort-enums
+            - -fshort-wchar
+            - -ffunction-sections
+            - -Wno-packed
+            - -Wno-missing-variable-declarations
+            - -Wno-missing-prototypes
+            - -Wno-missing-noreturn
+            - -Wno-sign-conversion
+            - -Wno-nonportable-include-path
+            - -Wno-reserved-id-macro
+            - -Wno-unused-macros
+            - -Wno-documentation-unknown-command
+            - -Wno-documentation
+            - -Wno-license-management
+            - -Wno-parentheses-equality
+          CPP:
+            - -xc++
+            - -std=c++11
+          ASM:
+            - -masm=auto
+          Link:
+            - --map
+            - --load_addr_map_info
+            - --xref
+            - --callgraph
+            - --symbols
+            - --info sizes
+            - --info totals
+            - --info unused
+            - --info veneers
+            - --lto
+            - --strict
+            - --diag_suppress=6314
+            - --summary_stderr
+            - --info summarysizes
+  linker:
+    - script: fvp_sse300_mps3_s.sct
+      for-context: +AN552_ACI
+    - script: RTE/Device/IOTKit_CM33_FP_VHT/ac6_arm.sct
+      for-context: +CortexM33_ACI
+  groups:
+    - group: platform
+      for-context: +AN552_ACI
+      files:
+        - file: ../platform/app_platform.c
+        - file: ../platform/platform.h
+        - file: ../platform/mps3/platform_mps3.c
+        - file: ../platform/mps3/stdout_USART.c
+          misc:
+            - CPP:
+                - -xc++
+    - group: application
+      files:
+        - file: ../main.c
+    - group: aci
+      files:
+        - file: ../../inc/aci_gpr_lib.h
+        - file: ../../src/aci_gpr_lib.c
+    - group: platform
+      for-context: +CortexM33_ACI
+      files:
+        - file: ../platform/app_platform.c
+        - file: ../platform/platform.h
+        - file: ../platform/mps3/platform_mps3.c
+        - file: ../platform/mps3/stdout_USART.c
+  components:
+    - component: ARM::CMSIS-Compiler:CORE
+    - component: ARM::CMSIS-Compiler:STDOUT:Custom
+    - component: ARM::CMSIS-View:Event Recorder&DAP
+    - component: ARM::CMSIS-View:Fault:Record
+    - component: ARM::CMSIS-View:Fault:Storage
+    - component: ARM::CMSIS:CORE
+    - component: ARM::Device:Startup&C Startup
+      for-context: +AN552_ACI
+    - component: GorgonMeducer::Utilities:perf_counter:Core&Source
+    - component: Keil::Device:Startup&C Startup
+      for-context: +CortexM33_ACI

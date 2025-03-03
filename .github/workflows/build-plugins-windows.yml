@@ -1,0 +1,56 @@
+name: Build CDE plugins for Windows AMD64
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    # Install the Minimal SYStem 2 on Windows for building Linux software.
+    # Install gcc and make.
+    - name: Set up MSYS2
+      uses: msys2/setup-msys2@v2
+      with:
+        update: true
+        install: >-
+          mingw-w64-x86_64-gcc
+          mingw-w64-x86_64-make
+
+    # Generate the CDE plugin (DLL) for the GPR example.
+    - name: Build the GPR plugin
+      run: |
+        cd GPR/plugin
+        mingw32-make
+
+    # Upload the generated cde_plugin.dll as cde_plugin_aci_gpr-win_amd64.dll artifact.
+    # Set the maximum retention period of 90 days.
+    - name: Upload the GPR plugin
+      uses: actions/upload-artifact@v4
+      with:
+        name: cde_plugin_aci_gpr-win_amd64.dll
+        path: GPR/plugin/build/cde_plugin.dll
+        retention-days: 90
+
+    # Generate the CDE plugin (DLL) for the MVE example.
+    - name: Build the MVE plugin
+      run: |
+        cd MVE/plugin
+        mingw32-make
+
+    # Upload the generated cde_plugin.dll as cde_plugin_aci_mve-win_amd64.dll artifact.
+    # Set the maximum retention period of 90 days.
+    - name: Upload the MVE plugin
+      uses: actions/upload-artifact@v4
+      with:
+        name: cde_plugin_aci_mve-win_amd64.dll
+        path: MVE/plugin/build/cde_plugin.dll
+        retention-days: 90
