@@ -21,7 +21,7 @@ CXXFLAGS = -O3 -Wall -Wall -Wextra -pedantic -fPIC -Wno-unused-parameter -std=c+
 # Dependency-generation flags
 DEPFLAGS = -MMD -MP
 # linker flags
-LDFLAGS = -shared
+LDFLAGS = -shared -static
 
 
 # Build directories
