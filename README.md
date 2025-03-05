@@ -28,7 +28,7 @@ Watch this [introduction webinar](https://www.arm.com/resources/webinar/cmsis-so
 
 ## Technology Overview
 
-Arm Custom Instructions (ACI, also known as Custom Datapath Extensions in the architecture specification) is an optional feature to allow chip designers to add custom data processing operations in their silicon products. Potentially this can provide higher performance and energy efficiency in certain specialized data processing tasks. Technical details of the extended instruction set are covered in the [**Introduction to the Arm Custom Instructions / Custom Datapath Extension**](./document/ACI_intro.md).
+Arm Custom Instructions (ACI, also known as Custom Datapath Extensions in the architecture specification) is an optional feature to allow chip designers to add custom data processing operations in their silicon products. Potentially this can provide higher performance and energy efficiency in certain specialized data processing tasks. Technical details are covered in the [**Introduction to the Arm Custom Instructions / Custom Datapath Extension**](./document/ACI_intro.md).
 
 In addition the following resource pages are helpful:
 
