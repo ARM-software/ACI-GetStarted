@@ -106,11 +106,7 @@ To simulate the ACI instruction set, **ACI-GetStarted** contains a makefile proj
 | plugin  | the CDE plugin makefile project                  |
 | test    | test project                                     |
 
-In the **example** folder, we use a typical algorithm in graphics processing—**image-copying-with-an-alpha-mask**—as a case study. We provide three versions of the same algorithm: a pure C implementation, a Helium-accelerated version, and a Helium-ACI-accelerated version. The copied output is displayed on an LCD panel simulated by the FVP, allowing users to visually compare and inspect the effects of these three implementations. Additionally, the `__cycleof__()` function is used to measure the CPU cycle count for each version.
 
-In the chip design, the functional verification of hardware logic—especially newly added ACI instructions—relies on dedicated **test benches**. These test benches use C-based test cases tailored for specific functionalities.
-
-To facilitate development and validation of ACI-related firmware alongside hardware development, we provide a software environment in the **test** folder that allows direct execution of test bench test cases.
 
 > [!CAUTION]
 >

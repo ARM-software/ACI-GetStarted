@@ -3,7 +3,17 @@
 
 ### About the Platform and Example Content
 
-To simulate the ACI instruction set, **ACI-GetStarted** contains a makefile project that generates the corresponding [CDE(Custom Datapath Extension) plugin](https://developer.arm.com/documentation/100964/1127/Plug-ins-for-Fast-Models/CDE?lang=en)  using GCC. We also use an MDK project to show the firmware design flow. In addition to software simulation, this MDK project is based on [AN552 (which is the Arm® Corstone™ SSE-300 with Cortex®-M55 and Ethos™-U55: an example subsystem for MPS3)](https://developer.arm.com/documentation/dai0552/c/?lang=en), an FPGA image that runs on the MPS3 platform. [The Arm MPS3 FPGA prototyping board](https://developer.arm.com/Tools%20and%20Software/MPS3%20FPGA%20Prototyping%20Board) is a platform that allows designers to easily develop systems. For more information, please see [here](https://developer.arm.com/documentation/dai0552/c?lang=en). 
+To simulate the ACI instruction set, **ACI-GetStarted** contains a makefile project that generates the corresponding [CDE(Custom Datapath Extension) plugin](https://developer.arm.com/documentation/100964/1127/Plug-ins-for-Fast-Models/CDE?lang=en)  using GCC. We also use an MDK project to show the firmware design flow. 
+
+> [!IMPORTANT]
+>
+> The MDK project utilizes the FVP with the CDE plugin for debugging.
+>
+> Starting from version 5.42, MDK provides **specially optimized FVPs and a CDE Loader** to enhance the user experience for ACI simulation. **Please ensure you have MDK v5.42 or later** when using ACI-GetStarted.
+
+
+
+In addition to software simulation, this MDK project is based on [AN552 (which is the Arm® Corstone™ SSE-300 with Cortex®-M55 and Ethos™-U55: an example subsystem for MPS3)](https://developer.arm.com/documentation/dai0552/c/?lang=en), an FPGA image that runs on the MPS3 platform. [The Arm MPS3 FPGA prototyping board](https://developer.arm.com/Tools%20and%20Software/MPS3%20FPGA%20Prototyping%20Board) is a platform that allows designers to easily develop systems. For more information, please see [here](https://developer.arm.com/documentation/dai0552/c?lang=en). 
 
 The AN552 implements a Helium-ACI instruction set for RGB565 image processing; however, the corresponding Fast Model does **not** provide the simulation of these Helium-ACI instructions. This allows the content of the project to demonstrate:
 
@@ -35,6 +45,16 @@ The AN552 implements a Helium-ACI instruction set for RGB565 image processing; h
 | src     | the folder containing ACI library source file(s) |
 | plugin  | the CDE plugin makefile project                  |
 | test    | test project                                     |
+
+In the **example** folder, we use a typical algorithm in graphics processing—**image-copying-with-an-alpha-mask**—as a case study. We provide three versions of the same algorithm: a pure C implementation, a Helium-accelerated version, and a Helium-ACI-accelerated version. The copied output is displayed on an LCD panel simulated by the FVP, allowing users to visually compare and inspect the effects of these three implementations. Additionally, the `__cycleof__()` function is used to measure the CPU cycle count for each version.
+
+In the chip design, the functional verification of hardware logic—especially newly added ACI instructions—relies on dedicated **test benches**. These test benches use C-based test cases tailored for specific functionalities.
+
+To facilitate development and validation of ACI-related firmware alongside hardware development, we provide a software environment in the **test** folder that allows direct execution of test bench test cases.
+
+> [!CAUTION]
+>
+> It is important to note that **FVP is not a cycle-accurate simulation model**. While `__cycleof__()` relies on system hardware counters such as SysTick or PMU for cycle measurement, these counters themselves are software-simulated in FVP and do not guarantee cycle accuracy. Therefore, the performance measurements obtained during simulation should be considered only as **rough estimates** rather than definitive benchmarks.
 
 
 
