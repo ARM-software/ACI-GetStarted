@@ -1,4 +1,4 @@
-# GPR Example
+# GPR-ACI Example
 
 This example implements a 32-bit integer [population count](https://blog.heycoach.in/population-count-algorithm-in-c/) custom instruction. The population count instruction is useful for many algorithms, for example to calculate the [Hamming weight](https://en.wikipedia.org/wiki/Hamming_weight) or hamming distance as shown below.
 
@@ -63,7 +63,7 @@ To use the custom instruction, just all the function `popc_u32` that is defined 
 
 
 
-# Get Started with Helium ACI using Fast Model
+# Get Started with GPR-ACI using Fast Model
 
 
 ### About the Platform and Example Content
