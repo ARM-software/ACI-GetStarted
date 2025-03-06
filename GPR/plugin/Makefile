@@ -20,8 +20,12 @@ LD = g++
 CXXFLAGS = -O3 -Wall -Wall -Wextra -pedantic -fPIC -Wno-unused-parameter -std=c++14
 # Dependency-generation flags
 DEPFLAGS = -MMD -MP
-# linker flags
-LDFLAGS = -static
+# Linker flags OS dependent
+ifeq ($(OS),Windows_NT)
+LDFLAGS = -shared -Wl,-Bstatic -lntdll -lKERNEL32 -lmsvcrt -lCRYPTBASE -lucrtbase
+else
+LDFLAGS = -shared
+endif
 
 
 # Build directories
