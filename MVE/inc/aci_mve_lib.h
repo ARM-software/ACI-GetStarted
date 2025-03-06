@@ -126,7 +126,7 @@ uint16x8_t vblda7q_m_rgb565(uint16x8_t In1Out,
  * \brief initialize ACI extension
  */
 extern
-void __arm_2d_aci_init(void);
+void aci_init(void);
 
 /*!
  * \brief copy a rgb565 image to a target framebuffer with a specified alpha mask
