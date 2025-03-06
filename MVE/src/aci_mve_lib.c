@@ -94,7 +94,7 @@ static void __arm_2d_cde_rgb565_init(void)
     __ISB();
 }
 
-void __arm_2d_aci_init(void)
+void aci_init(void)
 {
 #ifdef __ARM_FEATURE_CDE
     if (__ARM_FEATURE_CDE_COPROC & (1 << ARM_2D_RGB565_ACI_LIB_COPRO_ID))
