@@ -305,7 +305,6 @@ Navigate to the folder `project\mdk` and open the MDK project `ACI-Example.uvmpw
 You can compile the project by pressing `F7`. You should see no errors (and probably some warnings) in the **Build Output**:
 
 ```
-Program Size: Code=11224 RO-data=972 RW-data=20 ZI-data=11580  
 ".\Objects\ACI-Example.axf" - 0 Error(s), 0 Warning(s).
 ```
 
@@ -313,12 +312,12 @@ After that you can start a debug session by pressing `CTRL`+`F5`, in the **Debug
 
 ```c
 -[Cycle Report]------------------------------------
-Calculate Population Count in C total cycle count: 830394 [000cabba]
-Correctness Validation: 0x00025e3b
+Calculate Hamming distance in C total cycle count: 585307 [0008ee5b]
 
 -[Cycle Report]------------------------------------
-Calculate Population Count in ACI total cycle count: 220394 [00035cea]
-Correctness Validation: 0x00025e3b
+Calculate Hamming distance in ACI total cycle count: 40601 [00009e99]
+
+Validate the output...PASS!
 ```
 
 > [!CAUTION]

@@ -64,53 +64,66 @@ uint32_t s_wInput[ITERATION_COUNT];
 __NO_INIT
 static
 volatile
-uint32_t s_wOutputC[ITERATION_COUNT];
+uint32_t s_wOutputC[ITERATION_COUNT-1];
 
 __NO_INIT
 static
 volatile
-uint32_t s_wOutputACI[ITERATION_COUNT];
+uint32_t s_wOutputACI[ITERATION_COUNT-1];
 
 /*============================ IMPLEMENTATION ================================*/
 
 static
-uint32_t popcount(uint32_t x) 
+uint32_t popcount (uint32_t x) 
 {
-    uint32_t n = 0;
-    for (int i = 0; i < 32; ++i) {
-        n += (x >> i) & 1;
+    uint32_t count;
+    for (count=0; x; count++) {
+        x &= x - 1;
     }
-
-    return n;
+    return count;
 }
 
+// Function to calculate Hamming distance using population count
+uint32_t hamming_distance_in_c(uint32_t x, uint32_t y) 
+{
+    // XOR the two numbers, then count the number of 1's in the result
+    return popcount (x ^ y);     // population count
+}
 
-void population_count_test_in_c(    uint32_t *pwInput, 
-                                    volatile uint32_t *pwOutput, 
-                                    size_t tSize)
+// Function to calculate Hamming distance using population count
+uint32_t hamming_distance_in_aci(uint32_t x, uint32_t y) 
+{
+    // XOR the two numbers, then count the number of 1's in the result
+    return popc_u32 (x ^ y);     // population count
+}
+
+void test_in_c( uint32_t *pwInput, 
+                volatile uint32_t *pwOutput, 
+                size_t tSize)
 {
     assert(NULL != pwInput);
     assert(NULL != pwOutput);
-    assert(tSize > 0);
+    assert(tSize > 1);
+    tSize--;
 
     do {
-        *pwOutput++ = popcount(*pwInput++);
+        *pwOutput++ = hamming_distance_in_c(*pwInput, *(pwInput+1));
+        pwInput++;
     } while(--tSize);
 }
 
-
-void population_count_test_in_aci(  uint32_t *pwInput, 
-                                    volatile uint32_t *pwOutput, 
-                                    size_t tSize)
+void test_in_aci(   uint32_t *pwInput, 
+                    volatile uint32_t *pwOutput, 
+                    size_t tSize)
 {
     assert(NULL != pwInput);
     assert(NULL != pwOutput);
-    assert(tSize > 0);
-
-    uint32_t wTotal = 0;
+    assert(tSize > 1);
+    tSize--;
 
     do {
-        *pwOutput++ = popc_u32(*pwInput++);
+        *pwOutput++ = hamming_distance_in_aci(*pwInput, *(pwInput+1));
+        pwInput++;
     } while(--tSize);
 }
 
@@ -132,7 +145,7 @@ bool validation_result(void)
 {
     printf("\r\n""Validate the output...");
     uint32_t wErrors = 0;
-    for (size_t n = 0; n < dimof(s_wInput); n++) {
+    for (size_t n = 0; n < (ITERATION_COUNT - 1); n++) {
         if (s_wOutputC[n] != s_wOutputACI[n]) {
             printf("\r\nERROR: Expect 0x%08x, but get 0x%08x at index: %d",
                    s_wOutputC[n],
@@ -162,12 +175,12 @@ int main (void)
 
     prepare_test(s_wInput, dimof(s_wInput));
 
-    __cycleof__("Calculate Population Count in C") {
-        population_count_test_in_c(s_wInput, s_wOutputC, dimof(s_wInput));
+    __cycleof__("Calculate Hamming distance in C") {
+        test_in_c(s_wInput, s_wOutputC, dimof(s_wInput));
     }
 
-    __cycleof__("Calculate Population Count in ACI") {
-        population_count_test_in_aci(s_wInput, s_wOutputACI, dimof(s_wInput));
+    __cycleof__("Calculate Hamming distance in ACI") {
+        test_in_aci(s_wInput, s_wOutputACI, dimof(s_wInput));
     }
 
     return validation_result() ? 0 : -1;
