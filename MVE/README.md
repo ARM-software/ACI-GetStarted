@@ -30,12 +30,12 @@ The steps for creating the processor hardware are not described here, but the te
 
 ### Map Custom Instructions
 
-The include file `./inc/aci_gpr_lib.h` contains the ACI mapping for the `popc_u32` instruction.  In this example, the `CX1A` intrinsic function is used with `ID=0` and `imm=0`. Further instructions may be defined with a different `imm` value.
+The include file `./inc/aci_mve_lib.h` contains the ACI mapping for the `alpha-blending` instruction.  In this example, the `VCX3QA` intrinsic function is used with `ID=0` and `imm=0`. Further instructions may be defined with a different `imm` value.
 
 The header file also defines the functions:
 
-- `aci_gpr_init` to enable the related ACI accelerator.
-- `aci_gpr_NS_access` which is called in secure mode to enable access in non-secure mode.
+- `aci_init` to enable the related ACI accelerator.
+    - It enables access in non-secure mode.
 
 ### Create AVH-FVP Plugin
 
