@@ -54,8 +54,8 @@ The include file `./inc/aci_gpr_lib.h` contains the ACI mapping for the `popc_u3
 
 The header file also defines the functions:
 
-- `aci_gpr_init` to enable the related ACI accelerator.
-- `aci_gpr_NS_access` which is called in secure mode to enable access in non-secure mode.
+- `aci_init` to enable the related ACI accelerator.
+    - enables access in non-secure mode.
 
 ### Create AVH-FVP Plugin
 
