@@ -26,15 +26,15 @@ jobs:
 
     - name: Build the GPR application
       run: |
-        cbuild ./GPR/example/mdk/ACI-Example.csolution.yml --packs --context .+AN552_ACI --rebuild
+        cbuild ./GPR/example/mdk/GPR_Example.csolution.yml --packs --context .+AN552_ACI --rebuild
 
-    # Upload the generated ACI-Example.axf binary as ACI-GPR-Example.axf artifact.
+    # Upload the generated GPR_Example.axf binary as ACI-GPR-Example.axf artifact.
     # Set the maximum retention period of 90 days.
     - name: Upload the GPR axf binary
       uses: actions/upload-artifact@v4
       with:
         name: ACI-GPR-Example.axf
-        path: GPR/example/mdk/out/ACI-Example/AN552_ACI/ACI-Example.axf
+        path: GPR/example/mdk/out/GPR_Example/AN552_ACI/GPR_Example.axf
         retention-days: 90
 
     # Download the GPR plugin artifact
@@ -50,7 +50,7 @@ jobs:
     - name: Execute the GPR example
       run: |
         FVP_Corstone_SSE-300 \
-        -a  ./GPR/example/mdk/out/ACI-Example/AN552_ACI/ACI-Example.axf \
+        -a  ./GPR/example/mdk/out/GPR_Example/AN552_ACI/GPR_Example.axf \
         --plugin ./CDE_Utils/Linux64/GCC_10.3/CDELoader.so \
         -C cpu0.has_cde=1 \
         -C mps3_board.telnetterminal0.start_telnet=0 \

@@ -7,4 +7,4 @@ solution:
       device: ARM::SSE-300-MPS3
       optimize: debug
   projects:
-    - project: ACI-Example.cproject.yml
+    - project: MVE_Example.cproject.yml

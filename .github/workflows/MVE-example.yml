@@ -26,15 +26,15 @@ jobs:
 
     - name: Build the MVE application
       run: |
-        cbuild ./MVE/example/mdk/ACI-Example.csolution.yml --packs --context .+AN552_ACI --rebuild
+        cbuild ./MVE/example/mdk/MVE_Example.csolution.yml --packs --context .+AN552_ACI --rebuild
 
-    # Upload the generated ACI-Example.axf binary as ACI-MVE-Example.axf artifact.
+    # Upload the generated MVE_Example.axf binary as ACI-MVE-Example.axf artifact.
     # Set the maximum retention period of 90 days.
     - name: Upload the MVE axf binary
       uses: actions/upload-artifact@v4
       with:
         name: ACI-MVE-Example.axf
-        path: MVE/example/mdk/out/ACI-Example/AN552_ACI/ACI-Example.axf
+        path: MVE/example/mdk/out/MVE_Example/AN552_ACI/MVE_Example.axf
         retention-days: 90
 
     # Download the MVE plugin artifact
@@ -50,7 +50,7 @@ jobs:
     - name: Execute the MVE example
       run: |
         FVP_Corstone_SSE-300 \
-        -a  ./MVE/example/mdk/out/ACI-Example/AN552_ACI/ACI-Example.axf \
+        -a  ./MVE/example/mdk/out/MVE_Example/AN552_ACI/MVE_Example.axf \
         --plugin ./CDE_Utils/Linux64/GCC_10.3/CDELoader.so \
         -C cpu0.has_cde=1 \
         -C mps3_board.telnetterminal0.start_telnet=0 \

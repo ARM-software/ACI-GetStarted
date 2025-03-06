@@ -10,4 +10,4 @@ solution:
       device: ARM::IOTKit_CM33_FP_VHT
       optimize: debug
   projects:
-    - project: ACI-Example.cproject.yml
+    - project: GPR_Test.cproject.yml
