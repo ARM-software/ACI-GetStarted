@@ -60,7 +60,7 @@ To use the custom instruction, just all the function `popc_u32` that is defined 
 
 ------
 
-ToDo rework
+
 
 # Get Started with Helium ACI using Fast Model
 
@@ -68,6 +68,14 @@ ToDo rework
 ### About the Platform and Example Content
 
 To simulate the ACI instruction set, **ACI-GetStarted** contains a makefile project that generates the corresponding [CDE(Custom Datapath Extension) plugin](https://developer.arm.com/documentation/100964/1127/Plug-ins-for-Fast-Models/CDE?lang=en)  using GCC. We also use an MDK project to show the firmware design flow. 
+
+> [!IMPORTANT]
+>
+> The MDK project utilizes the FVP with the CDE plugin for debugging.
+>
+> Starting from version 5.42, MDK provides **specially optimized FVPs and a CDE Loader** to enhance the user experience for ACI simulation. **Please ensure you have MDK v5.42 or later** when using ACI-GetStarted.
+
+
 
 - **How to use ACI to access General Purpose Registers in Arm Compilers for acceleration**
 > [!TIP]
@@ -97,6 +105,16 @@ To simulate the ACI instruction set, **ACI-GetStarted** contains a makefile proj
 | src     | the folder containing ACI library source file(s) |
 | plugin  | the CDE plugin makefile project                  |
 | test    | test project                                     |
+
+In the **example** folder, we use a typical algorithm in graphics processing—**image-copying-with-an-alpha-mask**—as a case study. We provide three versions of the same algorithm: a pure C implementation, a Helium-accelerated version, and a Helium-ACI-accelerated version. The copied output is displayed on an LCD panel simulated by the FVP, allowing users to visually compare and inspect the effects of these three implementations. Additionally, the `__cycleof__()` function is used to measure the CPU cycle count for each version.
+
+In the chip design, the functional verification of hardware logic—especially newly added ACI instructions—relies on dedicated **test benches**. These test benches use C-based test cases tailored for specific functionalities.
+
+To facilitate development and validation of ACI-related firmware alongside hardware development, we provide a software environment in the **test** folder that allows direct execution of test bench test cases.
+
+> [!CAUTION]
+>
+> It is important to note that **FVP is not a cycle-accurate simulation model**. While `__cycleof__()` relies on system hardware counters such as SysTick or PMU for cycle measurement, these counters themselves are software-simulated in FVP and do not guarantee cycle accuracy. Therefore, the performance measurements obtained during simulation should be considered only as **rough estimates** rather than definitive benchmarks.
 
 
 
