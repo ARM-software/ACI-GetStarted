@@ -1,3 +1,58 @@
+# MVE-ACI Example
+
+
+This example implements an alpha-blending algorithm that are widely used in 2D image processing—**image-copying-with-an-alpha-mask**—as a case study. We provide three versions of the same algorithm: a pure C implementation, a Helium-accelerated version, and a Helium-ACI-accelerated version. The copied output is displayed on an LCD panel simulated by the FVP, allowing users to visually compare and inspect the effects of these three implementations. Additionally, the `__cycleof__()` function is used to measure the CPU cycle count for each version.
+
+In the [White-Paper Innovate by Customized Instructions, but Without Fragmenting the Ecosystem](https://armkeil.blob.core.windows.net/developer/Files/pdf/white-paper/arm-custom-instructions-without-fragmentation-whitepaper.pdf), data shows that the MVE-ACI accelerated alpha-blending algorithm is 19x of the scalar implementation and 5.9x of the Helium accelerated implementation.
+
+In the chip design, the functional verification of hardware logic—especially newly added ACI instructions—relies on dedicated **test benches**. These test benches use C-based test cases tailored for specific functionalities.
+
+To facilitate development and validation of ACI-related firmware alongside hardware development, we provide a software environment in the **test** folder that allows direct execution of test bench test cases.
+
+> [!CAUTION]
+>
+> It is important to note that **FVP is not a cycle-accurate simulation model**. While `__cycleof__()` relies on system hardware counters such as SysTick or PMU for cycle measurement, these counters themselves are software-simulated in FVP and do not guarantee cycle accuracy. Therefore, the performance measurements obtained during simulation should be considered only as **rough estimates** rather than definitive benchmarks.
+
+
+
+## Steps to Custom Instruction
+
+The following steps describe how to implement the `popc_u32` function as custom instruction. Each step is explained in more detail and in a related directory.
+
+|  Step  | Description                                                  | Directory |
+| :----: | :----------------------------------------------------------- | :-------- |
+| **1.** | [Map custom instructions](#map-custom-instructions) to Custom Datapath Extension (CDE) | inc       |
+| **2.** | [Create plugin for AVH-FVP simulation models](#create-avh-fvp-plugin) that adds custom instructions | plugin    |
+| **3.** | [Create test code to validate](#create-test-code) the correctness of the AVH-FVP simulation | test      |
+| **4.** | [Use custom instructions](#use-custom-instructions) in your algorithm to estimate performance gains | example   |
+
+The steps for creating the processor hardware are not described here, but the test code created in step 3 can be reused also for hardware verification.
+
+### Map Custom Instructions
+
+The include file `./inc/aci_gpr_lib.h` contains the ACI mapping for the `popc_u32` instruction.  In this example, the `CX1A` intrinsic function is used with `ID=0` and `imm=0`. Further instructions may be defined with a different `imm` value.
+
+The header file also defines the functions:
+
+- `aci_gpr_init` to enable the related ACI accelerator.
+- `aci_gpr_NS_access` which is called in secure mode to enable access in non-secure mode.
+
+### Create AVH-FVP Plugin
+
+The simulation of the CX1A instruction is implemented in the module `./plugin/cde_plugin.cpp` with the function `aci_fvp::exec_cx1`.  For `imm=0` the a simulation code for popc_u32 is called.
+
+### Create Test Code
+
+The test code verifies the execution of the `pop_u32` instruction. This test may be reused later also for validation of the hardware implementation.
+
+### Use Custom Instructions
+
+To use the custom instruction, just all the function `popc_u32` that is defined in the include file `./inc/aci_gpr_lib.h`.
+
+------
+
+
+
 
 
 # Get Started with MVE-ACI using Fast Model
@@ -47,16 +102,6 @@ The AN552 implements a Helium-ACI instruction set for RGB565 image processing; h
 | src     | the folder containing ACI library source file(s) |
 | plugin  | the CDE plugin makefile project                  |
 | test    | test project                                     |
-
-In the **example** folder, we use a typical algorithm in graphics processing—**image-copying-with-an-alpha-mask**—as a case study. We provide three versions of the same algorithm: a pure C implementation, a Helium-accelerated version, and a Helium-ACI-accelerated version. The copied output is displayed on an LCD panel simulated by the FVP, allowing users to visually compare and inspect the effects of these three implementations. Additionally, the `__cycleof__()` function is used to measure the CPU cycle count for each version.
-
-In the chip design, the functional verification of hardware logic—especially newly added ACI instructions—relies on dedicated **test benches**. These test benches use C-based test cases tailored for specific functionalities.
-
-To facilitate development and validation of ACI-related firmware alongside hardware development, we provide a software environment in the **test** folder that allows direct execution of test bench test cases.
-
-> [!CAUTION]
->
-> It is important to note that **FVP is not a cycle-accurate simulation model**. While `__cycleof__()` relies on system hardware counters such as SysTick or PMU for cycle measurement, these counters themselves are software-simulated in FVP and do not guarantee cycle accuracy. Therefore, the performance measurements obtained during simulation should be considered only as **rough estimates** rather than definitive benchmarks.
 
 
 

@@ -25,6 +25,16 @@ uint32_t popc_u32 (uint32_t x) {
 The [White-Paper Arm Custom Instructions: Enabling
 Innovation and Greater Flexibility on Arm](https://armkeil.blob.core.windows.net/developer/Files/pdf/white-paper/arm-custom-instructions-wp.pdf) uses this example and shows a reduction of the execution time from 25 cycles to just 1 cycle using ACI.
 
+In the chip design, the functional verification of hardware logic—especially newly added ACI instructions—relies on dedicated **test benches**. These test benches use C-based test cases tailored for specific functionalities.
+
+To facilitate development and validation of ACI-related firmware alongside hardware development, we provide a software environment in the **test** folder that allows direct execution of test bench test cases.
+
+> [!CAUTION]
+>
+> It is important to note that **FVP is not a cycle-accurate simulation model**. While `__cycleof__()` relies on system hardware counters such as SysTick or PMU for cycle measurement, these counters themselves are software-simulated in FVP and do not guarantee cycle accuracy. Therefore, the performance measurements obtained during simulation should be considered only as **rough estimates** rather than definitive benchmarks.
+
+
+
 ## Steps to Custom Instruction
 
 The following steps describe how to implement the `popc_u32` function as custom instruction. Each step is explained in more detail and in a related directory.
@@ -106,17 +116,6 @@ To simulate the ACI instruction set, **ACI-GetStarted** contains a makefile proj
 | src     | the folder containing ACI library source file(s) |
 | plugin  | the CDE plugin makefile project                  |
 | test    | test project                                     |
-
-In the **example** folder, we implemented a Hamming distance computation function in C and provided an ACI-accelerated version for comparison. During this process, we use `__cycleof__()` to measure the CPU cycle count for both algorithms.
-
-In the chip design, the functional verification of hardware logic—especially newly added ACI instructions—relies on dedicated **test benches**. These test benches use C-based test cases tailored for specific functionalities.
-
-To facilitate development and validation of ACI-related firmware alongside hardware development, we provide a software environment in the **test** folder that allows direct execution of test bench test cases.
-
-> [!CAUTION]
->
-> It is important to note that **FVP is not a cycle-accurate simulation model**. While `__cycleof__()` relies on system hardware counters such as SysTick or PMU for cycle measurement, these counters themselves are software-simulated in FVP and do not guarantee cycle accuracy. Therefore, the performance measurements obtained during simulation should be considered only as **rough estimates** rather than definitive benchmarks.
-
 
 
 ## 1 Prepare the Environment
