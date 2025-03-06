@@ -186,7 +186,7 @@ void __arm_2d_impl_rgb565_des_msk_copy_mve(
 int main (void) 
 {
     stdio_init();
-    __arm_2d_aci_init();
+    aci_init();
 
     printf("\r\nACI Example\r\n");
 
