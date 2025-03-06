@@ -15,8 +15,9 @@ A trivial implementation of the `popc_u32` function is shown below:
 ``` c
 uint32_t popc_u32 (uint32_t x) {
     uint32_t count;
-    for (count=0; x; count++)
+    for (count=0; x; count++) {
         x &= x - 1;
+    }
     return count;
 }
 ```
@@ -106,7 +107,11 @@ To simulate the ACI instruction set, **ACI-GetStarted** contains a makefile proj
 | plugin  | the CDE plugin makefile project                  |
 | test    | test project                                     |
 
+In the **example** folder, we implemented a Hamming distance computation function in C and provided an ACI-accelerated version for comparison. During this process, we use `__cycleof__()` to measure the CPU cycle count for both algorithms.
 
+In the chip design, the functional verification of hardware logic—especially newly added ACI instructions—relies on dedicated **test benches**. These test benches use C-based test cases tailored for specific functionalities.
+
+To facilitate development and validation of ACI-related firmware alongside hardware development, we provide a software environment in the **test** folder that allows direct execution of test bench test cases.
 
 > [!CAUTION]
 >
