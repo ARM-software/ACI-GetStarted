@@ -292,13 +292,12 @@ Navigate to the folder `project\mdk` and open the MDK project `ACI-Example.uvmpw
 You can compile the project by pressing `F7`. You should see no errors (and probably some warnings) in the **Build Output**:
 
 ```
-Program Size: Code=75816 RO-data=17532 RW-data=248 ZI-data=24920  
 ".\Out\template.axf" - 0 Error(s), 0 Warning(s).
 ```
 
 After that you can start a debug session by pressing `CTRL`+`F5`, you should see the **Corstone_SSE-300 Fast Model** windows as shown below:
 
-![](./document/pictures/FastModel.png) 
+![](../document/pictures/FastModel.png) 
 
 In the **Debug (printf) View**, we can find the test report:
 
