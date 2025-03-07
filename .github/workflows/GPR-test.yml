@@ -27,7 +27,7 @@ jobs:
 
     - name: Build the GPR_Test application
       run: |
-        cbuild ./GPR/test/mdk/GPR_Test.csolution.yml --packs --context .+AN552_ACI --rebuild
+        cbuild ./GPR/test/mdk/GPR_Test.csolution.yml --packs --context .+AN552_ACI --rebuild --update-rte
 
     # Upload the generated GPR_Example.axf binary as ACI-GPR-Test.axf artifact.
     # Set the maximum retention period of 90 days.
