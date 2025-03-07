@@ -1,4 +1,4 @@
-name: Build and execute MVE example
+name: MVE test
 on:
   workflow_dispatch:
   workflow_run:

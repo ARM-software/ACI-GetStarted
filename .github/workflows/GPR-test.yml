@@ -1,4 +1,4 @@
-name: Build and execute GPR example
+name: GPR test
 on:
   workflow_dispatch:
   workflow_run:
