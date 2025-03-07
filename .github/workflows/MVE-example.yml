@@ -52,7 +52,7 @@ jobs:
       run: |
         FVP_Corstone_SSE-300 \
         -a  ./MVE/example/mdk/out/MVE_Example/AN552_ACI/MVE_Example.axf \
-        --plugin ./CDE_Utils/Linux64/GCC_10.3/CDELoader.so \
+        --plugin $AVH_FVP_PLUGINS/CDELoader.so \
         -C cpu0.has_cde=1 \
         -C mps3_board.telnetterminal0.start_telnet=0 \
         -C mps3_board.uart0.out_file=- \
