@@ -1,5 +1,6 @@
 name: Build CDE plugins for Windows AMD64
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
