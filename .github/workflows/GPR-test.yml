@@ -1,0 +1,63 @@
+name: Build and execute GPR example
+on:
+  workflow_dispatch:
+  workflow_run:
+    workflows: ["Build CDE plugins for Linux x86_64"]
+    types:
+      - completed
+
+permissions: write-all
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    # Activate the package manager and install the required build tools
+    - name: Activate vcpkg
+      uses: ARM-software/cmsis-actions/vcpkg@v1
+      with: 
+        config: "./vcpkg-configuration.json"
+
+    - name: Activate Arm tool license
+      uses: ARM-software/cmsis-actions/armlm@v1
+
+    - name: Build the GPR_Test application
+      run: |
+        cbuild ./GPR/test/mdk/GPR_Test.csolution.yml --packs --context .+AN552_ACI --rebuild
+
+    # Upload the generated GPR_Example.axf binary as ACI-GPR-Test.axf artifact.
+    # Set the maximum retention period of 90 days.
+    - name: Upload the GPR_Test axf binary
+      uses: actions/upload-artifact@v4
+      with:
+        name: ACI-GPR-Test.axf
+        path: GPR/test/mdk/out/GPR_Test/AN552_ACI/GPR_Test.axf
+        retention-days: 90
+
+    # Download the GPR plugin artifact
+    - name: Download the GPR plugin
+      uses: actions/download-artifact@v4
+      with:
+        run-id: ${{ github.event.workflow_run.id }}
+        github-token: ${{ github.token }}      
+        name: cde_plugin_aci_gpr-linux_x86_64.so
+        path: GPR/plugin/build/
+
+    # Execute the GPR test with AVH-Model and GPR plugin
+    - name: Execute the GPR Test
+      run: |
+        FVP_Corstone_SSE-300 \
+        -a  ./GPR/test/mdk/out/GPR_Test/AN552_ACI/GPR_Test.axf \
+        --plugin $AVH_FVP_PLUGINS/CDELoader.so \
+        -C cpu0.has_cde=1 \
+        -C mps3_board.telnetterminal0.start_telnet=0 \
+        -C mps3_board.uart0.out_file=- \
+        -C cpu0.cde_impl_name="ACI GPR Library" \
+        -C CDE.CDELoader.aci_object_files="[./GPR/plugin/build/cde_plugin.so]" \
+        -C CDE.CDELoader.aci_parameters="COPRO=1" \
+        -C core_clk.mul=10000000 \
+        --simlimit 300 --stat
