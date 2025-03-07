@@ -27,7 +27,7 @@ jobs:
 
     - name: Build the MVE_Test application
       run: |
-        cbuild ./MVE/test/mdk/MVE_Test.csolution.yml --packs --context .+AN552_ACI --rebuild --update-rte
+        cbuild ./MVE/test/mdk/MVE_Test.csolution.yml --packs --context .+AN552_ACI --rebuild
 
     # Upload the generated MVE_Test.axf binary as ACI-MVE-Test.axf artifact.
     # Set the maximum retention period of 90 days.
