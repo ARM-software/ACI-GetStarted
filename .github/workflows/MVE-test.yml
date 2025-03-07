@@ -1,4 +1,4 @@
-name: Build and execute GPR example
+name: MVE test
 on:
   workflow_dispatch:
   workflow_run:
@@ -25,39 +25,39 @@ jobs:
     - name: Activate Arm tool license
       uses: ARM-software/cmsis-actions/armlm@v1
 
-    - name: Build the GPR application
+    - name: Build the MVE_Test application
       run: |
-        cbuild ./GPR/example/mdk/GPR_Example.csolution.yml --packs --context .+AN552_ACI --rebuild
+        cbuild ./MVE/test/mdk/MVE_Test.csolution.yml --packs --context .+AN552_ACI --rebuild
 
-    # Upload the generated GPR_Example.axf binary as ACI-GPR-Example.axf artifact.
+    # Upload the generated MVE_Test.axf binary as ACI-MVE-Test.axf artifact.
     # Set the maximum retention period of 90 days.
-    - name: Upload the GPR axf binary
+    - name: Upload the MVE_Test axf binary
       uses: actions/upload-artifact@v4
       with:
-        name: ACI-GPR-Example.axf
-        path: GPR/example/mdk/out/GPR_Example/AN552_ACI/GPR_Example.axf
+        name: ACI-MVE-Test.axf
+        path: MVE/test/mdk/out/MVE_Test/AN552_ACI/MVE_Test.axf
         retention-days: 90
 
-    # Download the GPR plugin artifact
-    - name: Download the GPR plugin
+    # Download the MVE plugin artifact
+    - name: Download the MVE plugin
       uses: actions/download-artifact@v4
       with:
         run-id: ${{ github.event.workflow_run.id }}
-        github-token: ${{ github.token }}      
-        name: cde_plugin_aci_gpr-linux_x86_64.so
-        path: GPR/plugin/build/
+        github-token: ${{ github.token }}            
+        name: cde_plugin_aci_mve-linux_x86_64.so
+        path: MVE/plugin/build/
 
-    # Execute the GPR example with AVH-Model and GPR plugin
-    - name: Execute the GPR example
+    # Execute the MVE example with AVH-Model and MVE plugin
+    - name: Execute the MVE example
       run: |
         FVP_Corstone_SSE-300 \
-        -a  ./GPR/example/mdk/out/GPR_Example/AN552_ACI/GPR_Example.axf \
+        -a  ./MVE/test/mdk/out/MVE_Test/AN552_ACI/MVE_Test.axf \
         --plugin $AVH_FVP_PLUGINS/CDELoader.so \
         -C cpu0.has_cde=1 \
         -C mps3_board.telnetterminal0.start_telnet=0 \
         -C mps3_board.uart0.out_file=- \
-        -C cpu0.cde_impl_name="ACI GPR Library" \
-        -C CDE.CDELoader.aci_object_files="[./GPR/plugin/build/cde_plugin.so]" \
+        -C cpu0.cde_impl_name="ARM_2D_RGB565_ACI" \
+        -C CDE.CDELoader.aci_object_files="[./MVE/plugin/build/cde_plugin.so]" \
         -C CDE.CDELoader.aci_parameters="COPRO=1" \
         -C core_clk.mul=10000000 \
         --simlimit 300 --stat

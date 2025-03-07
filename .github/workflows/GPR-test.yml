@@ -1,4 +1,4 @@
-name: Build and execute GPR example
+name: GPR test
 on:
   workflow_dispatch:
   workflow_run:
@@ -25,17 +25,17 @@ jobs:
     - name: Activate Arm tool license
       uses: ARM-software/cmsis-actions/armlm@v1
 
-    - name: Build the GPR application
+    - name: Build the GPR_Test application
       run: |
-        cbuild ./GPR/example/mdk/GPR_Example.csolution.yml --packs --context .+AN552_ACI --rebuild
+        cbuild ./GPR/test/mdk/GPR_Test.csolution.yml --packs --context .+AN552_ACI --rebuild
 
-    # Upload the generated GPR_Example.axf binary as ACI-GPR-Example.axf artifact.
+    # Upload the generated GPR_Example.axf binary as ACI-GPR-Test.axf artifact.
     # Set the maximum retention period of 90 days.
-    - name: Upload the GPR axf binary
+    - name: Upload the GPR_Test axf binary
       uses: actions/upload-artifact@v4
       with:
-        name: ACI-GPR-Example.axf
-        path: GPR/example/mdk/out/GPR_Example/AN552_ACI/GPR_Example.axf
+        name: ACI-GPR-Test.axf
+        path: GPR/test/mdk/out/GPR_Test/AN552_ACI/GPR_Test.axf
         retention-days: 90
 
     # Download the GPR plugin artifact
@@ -47,11 +47,11 @@ jobs:
         name: cde_plugin_aci_gpr-linux_x86_64.so
         path: GPR/plugin/build/
 
-    # Execute the GPR example with AVH-Model and GPR plugin
-    - name: Execute the GPR example
+    # Execute the GPR test with AVH-Model and GPR plugin
+    - name: Execute the GPR Test
       run: |
         FVP_Corstone_SSE-300 \
-        -a  ./GPR/example/mdk/out/GPR_Example/AN552_ACI/GPR_Example.axf \
+        -a  ./GPR/test/mdk/out/GPR_Test/AN552_ACI/GPR_Test.axf \
         --plugin $AVH_FVP_PLUGINS/CDELoader.so \
         -C cpu0.has_cde=1 \
         -C mps3_board.telnetterminal0.start_telnet=0 \

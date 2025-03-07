@@ -20,12 +20,8 @@ LD = g++
 CXXFLAGS = -O3 -Wall -Wall -Wextra -pedantic -fPIC -Wno-unused-parameter -std=c++14
 # Dependency-generation flags
 DEPFLAGS = -MMD -MP
-# linker flags OS dependent
-ifeq ($(OS),Windows_NT)
-LDFLAGS = -shared -Wl,-Bstatic -lntdll -lKERNEL32 -lmsvcrt -lCRYPTBASE -lucrtbase
-else
+# Linker flags
 LDFLAGS = -shared
-endif
 
 # Build directories
 BUILD_DIR=build
@@ -41,8 +37,13 @@ DEPSDIR := $(addprefix $(BUILD_DIR)/, $(DEPS))
 
 all: $(BUILD_DIR) $(BUILD_DIR)/$(TARGET)
 
+ifeq ($(OS),Windows_NT)
 $(BUILD_DIR)/$(TARGET): $(OBJSDIR)
-	$(LD) $(LDFLAGS) -o $@ $^
+	$(LD) $(LDFLAGS) -o $@ $^ -static-libstdc++ -static-libgcc -static -pthread
+else
+$(BUILD_DIR)/$(TARGET): $(OBJSDIR)
+	$(LD) $(LDFLAGS) -o $@ $^ -static-libstdc++ -static-libgcc
+endif
 
 $(BUILD_DIR)/%.o: %.cpp
 	$(CC) $(CXXFLAGS) $(DEPFLAGS) $(INCLUDES) -c $< -o $@
