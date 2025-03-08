@@ -1,3 +1,11 @@
+[![GitHub](https://img.shields.io/github/license/ARM-software/ACI-GetStarted)](https://github.com/ARM-software/ACI-GetStarted/blob/main/LICENSE)
+[![Plugin Linux](https://img.shields.io/github/actions/workflow/status/ARM-software/ACI-GetStarted/build-plugins-linux.yml?logo=arm&logoColor=0091bd&label=Plugin%20Linux)](https://github.com/ARM-software/ACI-GetStarted/actions/workflows/build-plugins-linux.yml)
+[![Plugin Windows](https://img.shields.io/github/actions/workflow/status/ARM-software/ACI-GetStarted/build-plugins-windows.yml?logo=arm&logoColor=0091bd&label=Plugin%20Windows)](https://github.com/ARM-software/ACI-GetStarted/actions/workflows/build-plugins-windows.yml)
+[![GPR Test](https://img.shields.io/github/actions/workflow/status/ARM-software/ACI-GetStarted/GPR-test.yml?logo=arm&logoColor=0091bd&label=GPR%20Test)](https://github.com/ARM-software/ACI-GetStarted/actions/workflows/GPR-test.yml)
+[![GPR Example](https://img.shields.io/github/actions/workflow/status/ARM-software/ACI-GetStarted/GPR-example.yml?logo=arm&logoColor=0091bd&label=GPR%20Example)](https://github.com/ARM-software/ACI-GetStarted/actions/workflows/GPR-example.yml)
+[![MVE Test](https://img.shields.io/github/actions/workflow/status/ARM-software/ACI-GetStarted/MVE-test.yml?logo=arm&logoColor=0091bd&label=MVE%20Test)](https://github.com/ARM-software/ACI-GetStarted/actions/workflows/MVE-test.yml)
+[![MVE Example](https://img.shields.io/github/actions/workflow/status/ARM-software/ACI-GetStarted/MVE-example.yml?logo=arm&logoColor=0091bd&label=MVE%20Example)](https://github.com/ARM-software/ACI-GetStarted/actions/workflows/MVE-example.yml)
+
 # Get Started with Arm Custom Instructions (ACI)
 
 **[Arm Custom Instructions (ACI)](https://www.arm.com/technologies/custom-instructions)** extend Arm processors with application-specific instructions to optimize the performance of algorithms. ACI is currently implemented on Cortex-M33, Cortex-M52, Cortex-M55, and Cortex-M85 processors using the **Custom Datapath Extension (CDE)**. It extends the processor with a custom compute pipeline for accelerators that avoids the overhead of the co-processor interface.
