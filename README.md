@@ -20,10 +20,10 @@ This repository **does not** include content related to hardware design. The det
 
 ## Introduction Webinar
 
-ToDo: this is a placeholder
-
+We plan for April 2025 an introduction webinar. Detailed information for registration will follow.
+<!---
 Watch this [introduction webinar](https://www.arm.com/resources/webinar/cmsis-solution) to learn about ACI and how to use it.
-
+--->
 [![ACI Introduction Webinar](./document/pictures/ACI-introwebinar.png)](https://www.arm.com/resources/webinar/cmsis-solution)
 
 ## Technology Overview
@@ -92,9 +92,9 @@ Action         | Description
 :--------------|:----------------------
 [build-plugins-linux.yml](./.github/workflows/build-plugins-linux.yml) | Generate the AVH-FVP plugin extensions for the ACI examples. [Download plugin artifact for Linux](../../actions/workflows/build-plugins-linux.yml).
 [build-plugins-windows.yml](./.github/workflows/build-plugins-windows.yml) | Generate the AVH-FVP plugin extensions for the ACI examples. [Download plugin artifact for Windows](../../actions/workflows/build-plugins-windows.yml).
-ToDo: GPR-test.yml | Validation of AVH-FVP plugin for GPR ACI extension.
+[GPR-test.yml](./.github/workflows/GPR-test.yml)  | Validation of AVH-FVP plugin for GPR ACI extension.
 [GRP-example.yml](./.github/workflows/GPR-example.yml) | Build and execution test for GPR example project.
-ToDo: MVE-test.yml | Validation of AVH-FVP plugin for MVE ACI extension.
+[MVE-test.yml](./.github/workflows/MVE-example.yml)  | Validation of AVH-FVP plugin for MVE ACI extension.
 [MVE-example.yml](./.github/workflows/MVE-example.yml) | Build and execution test for MVE example project.
 
 ## Related Documentation
