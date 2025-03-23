@@ -12,7 +12,7 @@
 
 ## About this Repository
 
-Imagine that you plan to accelerate a firmware with a set of custom instructions, but before proceeding to hardware design you would like to answer questions such as *"How can we accelerate our algorithm?"* There is usually more than one solution, and each solution corresponds to a set of custom instructions, so *which one is the best?*
+Imagine that you plan to accelerate a firmware with a set of custom instructions, but before proceeding to hardware design you would like to answer questions such as *"How can we accelerate our algorithm?"* There is usually more than one solution, and each solution corresponds to a set of custom instructions, so "*which one is the best?*".
 
 This repository helps you to answer these questions by **evaluating your code using software simulation before the time-consuming hardware design**. It contains examples that you can adapt to your application requirements. These examples explain how ACI accelerated algorithms are developed by:
 
