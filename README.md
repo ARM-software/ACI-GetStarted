@@ -14,17 +14,17 @@
 
 Imagine that you plan to accelerate a firmware with a set of custom instructions, but before proceeding to hardware design you would like to answer questions such as *"How can we accelerate our algorithm?"* There is usually more than one solution, and each solution corresponds to a set of custom instructions, so *"Which solution is the best?"*.
 
-This repository helps you to answer these questions by **evaluate your code using software simulation before the time-consuming hardware design**. It contains examples that you can adopt to your application requirements. These examples explain how ACI accelerated algorithms are developed by:
+This repository helps you to answer these questions by **evaluating your code using software simulation before the time-consuming hardware design**. It contains examples that you can adapt to your application requirements. These examples explain how ACI accelerated algorithms are developed by:
 
 - Defining a set of custom instructions utilizing ACI.
 
-- Adopt C/C++ source code to use ACI with intrinsic functions.
+- Adapt C/C++ source code to use ACI with intrinsic functions.
 
 - Extend Arm simulation models with custom instructions and estimate the performance gains.
 
 - Verify the ACI set before starting hardware design.
 
-This repository **does not** include content related to hardware design. The details of the hardware interface for ACI are available in the *Integration and Implementation Manual of the Cortex-M processor* products. This document is available for licensees of the related Arm IP or under NDA (Non-disclosure agreement). If you wish to access to this document, please contact the [Arm technical support team](https://www.arm.com/support/technical-support).
+This repository **does not** include content related to hardware design. The details of the hardware interface for ACI are available in the *Integration and Implementation Manual of the Cortex-M processor* products. This document is available for licensees of the related Arm IP or under NDA (Non-disclosure agreement). If you wish to access this document, please contact the [Arm technical support team](https://www.arm.com/support/technical-support).
 
 ## Introduction Webinar
 
@@ -44,7 +44,7 @@ In addition the following resource pages are helpful:
 Innovation and Greater Flexibility on Arm](https://armkeil.blob.core.windows.net/developer/Files/pdf/white-paper/arm-custom-instructions-wp.pdf)
     - This paper was released shortly after Arm Custom Instructions was announced and provides a quick overview of what ACI is.
 - [White-Paper Innovate by Customized Instructions, but Without Fragmenting the Ecosystem](https://armkeil.blob.core.windows.net/developer/Files/pdf/white-paper/arm-custom-instructions-without-fragmentation-whitepaper.pdf)
-    - This paper releases in Embedded World 2012 describes the capability of Arm Custom Instructions and how compilation toolchains support this feature.
+    - This paper was released for Embedded World 2012 and describes the capability of Arm Custom Instructions and how compilation toolchains support this feature.
 - [Arm Custom Instructions on developer.arm.com](https://developer.arm.com/Architectures/Arm%20Custom%20Instructions)
     - Arm Custom Instructions webpage on the Arm website.
 
@@ -105,7 +105,7 @@ Action         | Description
 [MVE-test.yml](./.github/workflows/MVE-example.yml)  | Validation of AVH-FVP plugin for MVE ACI extension.
 [MVE-example.yml](./.github/workflows/MVE-example.yml) | Build and execution test for MVE example project.
 
-## Related Documentation
+## Related
 
 ### Arm Custom Instructions - Technology
 
@@ -126,6 +126,11 @@ Innovation and Greater Flexibility on Arm](https://armkeil.blob.core.windows.net
 
 - [Arm C Language Extension (ACLE) support CDE intrinsic functions to execute ACI](https://arm-software.github.io/acle/main/acle.html#custom-datapath-extension-1)
 - [Arm Fast Models - Plugin for CDE](https://developer.arm.com/documentation/100964/1127/Plug-ins-for-Fast-Models/CDE)
+
+### Hardware IP
+
+- [Arm Flexible Access](https://www.arm.com/products/flexible-access)
+- [Arm Flexible Access for Startups](https://www.arm.com/products/flexible-access/startup)
 
 ## License
 
