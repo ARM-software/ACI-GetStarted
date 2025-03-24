@@ -1,5 +1,4 @@
-# MVE-ACI Example
-
+# MVE Example
 
 This example implements an alpha-blending algorithm that are widely used in 2D image processing—**image-copying-with-an-alpha-mask**—as a case study. We provide three versions of the same algorithm: a pure C implementation, a Helium-accelerated version, and a Helium-ACI-accelerated version. The copied output is displayed on an LCD panel simulated by the FVP, allowing users to visually compare and inspect the effects of these three implementations. Additionally, the `__cycleof__()` function is used to measure the CPU cycle count for each version.
 
@@ -12,8 +11,6 @@ To facilitate development and validation of ACI-related firmware alongside hardw
 > [!CAUTION]
 >
 > It is important to note that **FVP is not a cycle-accurate simulation model**. While `__cycleof__()` relies on system hardware counters such as SysTick or PMU for cycle measurement, these counters themselves are software-simulated in FVP and do not guarantee cycle accuracy. Therefore, the performance measurements obtained during simulation should be considered only as **rough estimates** rather than definitive benchmarks.
-
-
 
 ## Steps to Custom Instruction
 
@@ -30,16 +27,19 @@ The steps for creating the processor hardware are not described here, but the te
 
 ### Map Custom Instructions
 
-The include file `./inc/aci_mve_lib.h` contains the ACI mapping for the `alpha-blending` instruction.  In this example, the `VCX3QA` intrinsic function is used with `ID=0` and `imm=0`. Further instructions may be defined with a different `imm` value.
+The include file `./MVE/inc/aci_mve_lib.h` contains the ACI mapping for the `alpha-blending` instruction.  In this example, the `VCX3QA` intrinsic function is used with `ID=0` and `imm=0`. Further instructions may be defined with a different `imm` value.
 
 The header file also defines the functions:
 
 - `aci_init` to enable the related ACI accelerator.
     - It enables access in non-secure mode.
 
+
+------
+
 ### Create AVH-FVP Plugin
 
-The simulation of the CX1A instruction is implemented in the module `./plugin/cde_plugin.cpp` with the function `aci_fvp::exec_cx1`.  For `imm=0` the a simulation code for popc_u32 is called.
+The simulation of the CX1A instruction is implemented in the module `./MVE/plugin/cde_plugin.cpp` with the function `aci_fvp::exec_cx1`.  For `imm=0` the a simulation code for popc_u32 is called.
 
 ### Create Test Code
 
@@ -47,7 +47,7 @@ The test code verifies the execution of the `pop_u32` instruction. This test may
 
 ### Use Custom Instructions
 
-To use the custom instruction, just all the function `popc_u32` that is defined in the include file `./inc/aci_gpr_lib.h`.
+To use the custom instruction, just all the function `popc_u32` that is defined in the include file `./MVE/inc/aci_gpr_lib.h`.
 
 ------
 
