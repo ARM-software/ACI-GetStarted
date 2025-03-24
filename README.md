@@ -60,9 +60,9 @@ ACI access General Purpose Register (R0-R15) or the Vector Register file that co
 ACI Categories                | Register Access    | Notes
 :-----------------------------|:-------------------|:------------------------------------------------
 32-bit and 64-bit integer     | R0-R15             | float8/16/32 values can be passed using a C union.
-32-bit single-precision float | S0-S31             | Only available when FPU extension is implemented.
-64-bit double-precision float | D0-D15             | Only available when FPU extension with double precision float is implemented.
-128-bit vector                | Q0-Q7              | Only available when [MVE (Helium)](https://www.arm.com/technologies/helium) is implemented.
+32-bit single-precision float | S0-S31             | Available if FPU extension is implemented.
+64-bit double-precision float | D0-D15             | Available if FPU extension with double precision float is implemented.
+128-bit vector                | Q0-Q7              | Available if [MVE (Helium)](https://www.arm.com/technologies/helium) is implemented.
 
 ## Example Projects
 
