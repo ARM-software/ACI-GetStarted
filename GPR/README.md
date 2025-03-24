@@ -91,11 +91,31 @@ Please install the MDK version 5.42a or higher from the [www.keil.arm.com](https
 >
 > - The [Community Edition](https://www.keil.arm.com/mdk-community/) is sufficient and can be used **ONLY** for evaluation and non-commercial use.
 
+> [!IMPORTANT]
+>
+> The MDK project utilizes the FVP with the CDE plugin for debugging.
+>
+> Starting from version 5.42, MDK provides **specially optimized FVPs and a CDE Loader** to enhance the user experience for ACI simulation. **Please ensure you have MDK v5.42 or later** when using ACI-GetStarted.
+
+
+
 ### Step 2: Download the CDE plugin for simulation
 
 Open [github.com/arm-software/ACI-GetStarted - Actions](https://github.com/arm-software/ACI-GetStarted/actions) and select `Build CDE plugins for Windows AMD64`. Then open the latest workflow run and download the related DLL available under **Artifacts**.  
 
-ToDo where should this be copied?
+After downloading the cde plugin, please copy it to the `plugin/build` folder, where the default MDK project debug setting points to. 
+
+```sh
+... -C CDE.CDELoader.aci_object_files="[..\..\plugin\build\cde_plugin.dll]" ...
+```
+
+If you want to place it to a different place, please update the MDK project debug setting accordingly.
+
+> [!TIP]
+>
+> If you want to build the cde plugin locally in windows, please see [here](../document/How_to_build_CDE_Plugins_Locally_in_Windows.md).
+
+
 
 ### Step 3: Open the MDK project
 
