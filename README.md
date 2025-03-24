@@ -11,7 +11,7 @@
 **[Arm Custom Instructions (ACI)](https://www.arm.com/technologies/custom-instructions)** extend Arm processors with application-specific instructions to optimize the performance of algorithms. ACI is currently implemented on Cortex-M33, Cortex-M52, Cortex-M55, and Cortex-M85 processors using the **Custom Datapath Extension (CDE)**. It extends the processor with a custom compute pipeline for accelerators that avoids the overhead of the co-processor interface.
 
 > [!NOTE]
-> The instruction set of the Cortex-M processor series is already comprehensive and delivers very good out-of-the-box performance with features like [Helium](todo) for high efficient DSP and ML processing. However, in some cases custom defined instructions are beneficial. For example, when data inputs require bit manipulations that take several clock cycles. If this operation executes frequently, a single-cycle custom instruction improves performance and energy efficiency.
+> The instruction set of the Cortex-M processor series is already comprehensive and delivers very good out-of-the-box performance with features like [Helium](https://www.arm.com/technologies/helium) for high efficient DSP and ML processing. However, in some cases custom defined instructions are beneficial. For example, when data inputs require bit manipulations that take several clock cycles. If this operation executes frequently, a single-cycle custom instruction improves performance and energy efficiency.
 
 ## About this Repository
 
