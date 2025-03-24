@@ -72,16 +72,6 @@ Introducing custom instructions is frequently an iterative process as algorithms
 
 - [MVE](./MVE) implements 128-bit vector instructions to accelerate algorithms for image and pixel manipulation. The custom instructions are may be used in the [Arm-2D](https://github.com/ARM-software/Arm-2D) image processing library and the example demonstrates the performance gain.
 
-Each example project contains these directories:
-
-Directory      | Description
-:--------------|:----------------------------
-example        | Uses custom instructions in real-world algorithms to estimate performance gains.
-inc            | Include file that contains the CDE intrinsic function definitions.
-plugin         | Arm Fast Model plugin that adds custom instructions to AVH-FVP models.
-src            | Source file to access custom instructions in user applications.
-test           | Tests to validate the correctness of the custom instructions.
-
 ## Required Tools
 
 All popular C/C++ compilers for Arm Cortex-M processors implement [Arm C Language Extension (ACLE) support CDE intrinsic functions to execute ACI](https://arm-software.github.io/acle/main/acle.html#custom-datapath-extension-1). Code that is using ACI is portable between C/C++ compilers. Debuggers do not require extensions as ACI uses processor registers that are already visible in debug views.
