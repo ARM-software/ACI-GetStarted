@@ -80,7 +80,7 @@ Custom instructions [do not require changes to existing software or middleware](
 
 The example projects in this repository use the following tools:
 
-- [Keil MDK](https://www.keil.arm.com/) with uVision IDE or VS Code extension pack to create application software.
+- [Keil MDK](https://www.keil.arm.com/): µVision or Keil Studio IDE or creating application software.
 - [CMSIS-Toolbox](https://open-cmsis-pack.github.io/cmsis-toolbox/) for command-line build.
 - [AVH-FVP](https://arm-software.github.io/AVH/main/overview/html/index.html) simulation models for Cortex-M processors (uses Arm Fast Models).
 - [GCC Compiler](https://packages.msys2.org/packages/mingw-w64-x86_64-gcc) and [Make](https://packages.msys2.org/packages/mingw-w64-x86_64-make) to translate plugins for AVH-FVP simulation models on Linux or Windows Hosts.
