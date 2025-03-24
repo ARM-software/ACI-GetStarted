@@ -28,11 +28,11 @@ This repository **does not** include content related to hardware design. The det
 
 ## Introduction Webinar
 
-We plan for April 2025 an introduction webinar. Detailed information for registration will follow.
+[Register here](https://www.arm.com/resources/webinar/get-started-with-arm-custom-instructions) for the introduction webinar on April 8, 2025.
 <!---
 Watch this [introduction webinar](https://www.arm.com/resources/webinar/cmsis-solution) to learn about ACI and how to use it.
 --->
-[![ACI Introduction Webinar](./document/pictures/ACI-introwebinar.png)](https://www.arm.com/resources/webinar/cmsis-solution)
+[![ACI Introduction Webinar](./document/pictures/ACI-introwebinar.png)](https://www.arm.com/resources/webinar/get-started-with-arm-custom-instructions)
 
 ## Technology Overview
 
