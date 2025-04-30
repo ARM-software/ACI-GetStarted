@@ -481,6 +481,99 @@ Or if these are defined using C macros, the code could look like this:
 #define range_check(X, Y, mode)  __arm_cx3(1, C, Y, ((1<<3)|(mode & 0x7)))
 ```
 
+
+##### Note about the use of scalar floating point with CDE intrinsics
+
+CDE instructions operate purely on **raw bit patterns** and have no inherent notion of data types such as `float` or `int`.
+
+As a result, all **scalar CDE instructions related to VFP** operate on values interpreted as either `uint32_t` or `uint64_t`.
+
+While there is often a natural 1:1 mapping between:
+
+- `float` → `uint32_t`  
+- `double` → `uint64_t`
+
+...the actual bit pattern could represent any custom encoding, such as:
+
+- Packed dual `float16_t` values in a `uint32_t`
+- Two `float32_t` values packed into a `float64_t`
+- A packed quad `float8_t` in a `uint32_t`
+- Or any other domain-specific format
+
+Ultimately, the CDE treats all operands as opaque binary data, and it is up to the programmer or hardware designer to interpret the meaning.
+
+To pass floating-point values to and from CDE instructions without altering their binary representation, a **bit-cast** is required.
+
+It is important to avoid standard typecasting between `float` and `int`, as this would trigger an explicit value conversion, which is not the intended behavior.
+
+Instead, using a `union` of `uint32_t` and `float` (or `uint64_t` and `double`) allows for safely viewing the same bit pattern under two different type interpretations — one for floating-point arithmetic and one for raw binary manipulation.
+
+Here would be a simple example:
+
+```c
+float custom_float_add(float val0, float val1) {
+    union {
+        float32_t       f;
+        int             i;
+    } in[2], out[2];
+
+    in[0].f = val0;
+    in[1].f = val1;    
+
+    /* custom transform 1*/
+    out[0].i = __arm_vcx2_u32(0x0, in[0].i, 0x1);
+    /* custom transform 2*/    
+    out[1].i = __arm_vcx2_u32(0x0, in[1].i, 0x2);    
+
+    /* sum */
+    return  out[0].f +  out[1].f;
+}
+```
+When dealing with C++ (C++20) `std::bit_cast` allow to perform similar conversions:
+
+```cpp
+/* float32_t variant */
+float custom_add(float val0, float val1) 
+{
+    return std::bit_cast<float>(
+        __arm_vcx2_u32(0x0, std::bit_cast<uint32_t>(val0), 0x1)
+        )
+        + 
+        std::bit_cast<float>(
+            __arm_vcx2_u32(0x0, std::bit_cast<uint32_t>(val1), 0x2)
+            );
+}
+
+/* float64_t variant */
+double custom_add(double val0, double val1) 
+{
+    return std::bit_cast<double>(
+        __arm_vcx2d_u64(0x0, std::bit_cast<uint64_t>(val0), 0x1)
+        )
+        + 
+        std::bit_cast<double>(
+            __arm_vcx2d_u64(0x0, std::bit_cast<uint64_t>(val1), 0x2)
+            );
+}
+```
+
+Generated ASM code would be the following:
+
+```asm
+custom_add(float, float):
+        vcx2    p0, s0, s0, #1
+        vcx2    p0, s2, s1, #2
+        vadd.f32        s0, s0, s2
+        bx      lr
+
+custom_add(double, double):
+        vcx2    p0, d0, d0, #1
+        vcx2    p0, d1, d1, #2
+        vadd.f64        d0, d0, d1
+        bx      lr
+```
+
+
 ## Comparison of the Arm Custom Instructions with Coprocessor Interface
 
 ### Introduction of the coprocessor interface
