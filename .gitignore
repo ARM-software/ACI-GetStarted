@@ -50,8 +50,7 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
-*.dbgconf
-*@*
+
 Objects
 *.scvd
 *.uvgui.*
