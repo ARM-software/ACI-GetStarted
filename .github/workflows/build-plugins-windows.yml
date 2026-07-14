@@ -14,7 +14,7 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v4
+      uses: actions/checkout@v7
 
     # Install the Minimal SYStem 2 on Windows for building Linux software.
     # Install gcc and make.
@@ -35,7 +35,7 @@ jobs:
     # Upload the generated cde_plugin.dll as cde_plugin_aci_gpr-win_amd64.dll artifact.
     # Set the maximum retention period of 90 days.
     - name: Upload the GPR plugin
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v7
       with:
         name: cde_plugin_aci_gpr-win_amd64.dll
         path: GPR/plugin/build/cde_plugin.dll
@@ -50,7 +50,7 @@ jobs:
     # Upload the generated cde_plugin.dll as cde_plugin_aci_mve-win_amd64.dll artifact.
     # Set the maximum retention period of 90 days.
     - name: Upload the MVE plugin
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v7
       with:
         name: cde_plugin_aci_mve-win_amd64.dll
         path: MVE/plugin/build/cde_plugin.dll
