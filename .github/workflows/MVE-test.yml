@@ -10,11 +10,11 @@ permissions: write-all
 
 jobs:
   build:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v4
+      uses: actions/checkout@v7
 
     - name: Setup Python
       uses: actions/setup-python@v6
@@ -37,7 +37,7 @@ jobs:
     # Upload the generated MVE_Test.axf binary as ACI-MVE-Test.axf artifact.
     # Set the maximum retention period of 90 days.
     - name: Upload the MVE_Test axf binary
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v7
       with:
         name: ACI-MVE-Test.axf
         path: MVE/test/mdk/out/MVE_Test/AN552_ACI/MVE_Test.axf
@@ -45,7 +45,7 @@ jobs:
 
     # Download the MVE plugin artifact
     - name: Download the MVE plugin
-      uses: actions/download-artifact@v4
+      uses: actions/download-artifact@v8
       with:
         run-id: ${{ github.event.workflow_run.id }}
         github-token: ${{ github.token }}            
