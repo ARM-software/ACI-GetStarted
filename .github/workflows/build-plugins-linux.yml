@@ -10,11 +10,11 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v4
+      uses: actions/checkout@v7
 
     # Generate the CDE plugin (SO) for the GPR example.
     - name: Build the GPR plugin
@@ -25,7 +25,7 @@ jobs:
     # Upload the generated cde_plugin.so as cde_plugin_aci_gpr-linux_x86_64.so artifact.
     # Set the maximum retention period of 90 days.
     - name: Upload the GPR plugin
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v7
       with:
         name: cde_plugin_aci_gpr-linux_x86_64.so
         path: GPR/plugin/build/cde_plugin.so
@@ -40,7 +40,7 @@ jobs:
     # Upload the generated cde_plugin.so as cde_plugin_aci_mve-linux_x86_64.so artifact.
     # Set the maximum retention period of 90 days.
     - name: Upload the MVE plugin
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v7
       with:
         name: cde_plugin_aci_mve-linux_x86_64.so
         path: MVE/plugin/build/cde_plugin.so
