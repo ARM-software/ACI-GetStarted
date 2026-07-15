@@ -37,7 +37,7 @@ jobs:
     # Upload the generated GPR_Example.axf binary as ACI-GPR-Test.axf artifact.
     # Set the maximum retention period of 90 days.
     - name: Upload the GPR_Test axf binary
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v7
       with:
         name: ACI-GPR-Test.axf
         path: GPR/test/mdk/out/GPR_Test/AN552_ACI/GPR_Test.axf
